@@ -9,6 +9,7 @@ help:
 
 .PHONY: dev
 dev: # Launch dev server
+	$(DOCKER_COMPOSE) build
 	$(DOCKER_COMPOSE) up --remove-orphans -d
 	@echo "You can access API with http://localhost:90/"
 
