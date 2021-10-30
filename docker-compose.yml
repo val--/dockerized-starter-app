@@ -5,8 +5,7 @@ services:
         volumes:
             # this will mount the api folder which contains the code to the docker container
             - ${PWD}/api:/var/www/api:delegated
-            # this will mount the nginx logs so that you can check the logs for errors,
-            # without logging into the container
+            # this will mount the nginx logs
             - ${PWD}/var/logs/nginx/:/var/log/nginx:delegated
             # this will create the server config to serve the api
             - ${PWD}/docker/nginx/api.conf:/etc/nginx/conf.d/api.conf:delegated
@@ -14,7 +13,7 @@ services:
             - "90:80"
         depends_on:
             - api
-            #- ui
+            - ui
         networks:
             - monitoring
 
@@ -50,6 +49,5 @@ networks:
     monitoring:
         driver: bridge
 
-# volumes
 volumes:
     nodemodules: {}
