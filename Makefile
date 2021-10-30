@@ -1,19 +1,32 @@
-SHELL=/bin/bash
+-include api/Makefile
+DOCKER_COMPOSE = docker-compose
+PROJECT = "Monitoring App"
+COMPOSE_PROJECT_NAME ?= $(notdir $(shell pwd))
 
-# Constants
-DOCKER_COMPOSE ?= docker-compose
 
-.PHONY: help
 help:
-	@echo "TODO"
+	@ echo "Usage: make <target>\n"
+	@ echo "Available targets:\n"
+	@ cat Makefile api/Makefile | grep -oE "^[^: ]+:" | grep -oE "[^:]+" | grep -Ev "help|default|.PHONY"
 
-.PHONY: dev
-dev: # Launch dev server
-	$(DOCKER_COMPOSE) build
-	$(DOCKER_COMPOSE) up --remove-orphans -d
-	@echo "You can access API with http://localhost:90/"
-	@echo "You can access UI with http://localhost:3000/"
+container-stop:
+	@echo "\n==> Stopping docker container"
+	$(DOCKER_COMPOSE) stop
 
-.PHONY: down
-down: # Kill dev server
-	$(DOCKER_COMPOSE) down -v
+container-down:
+	@echo "\n==> Removing docker container"
+	$(DOCKER_COMPOSE) down
+
+container-remove:
+	@echo "\n==> Removing docker container(s)"
+	$(DOCKER_COMPOSE) rm
+
+container-up:
+	@echo "\n==> Docker container building and starting ..."
+	$(DOCKER_COMPOSE) up --build -d
+
+tear-down: container-stop container-down container-remove
+
+all: container-up composer-install lint-composer lint-php lint-json lint-yaml lint-eol
+
+.PHONY: help all container-down container-remove container-stop container-up

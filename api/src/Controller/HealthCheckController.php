@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class HealthCheckController extends AbstractFOSRestController
 {
     /**
-     * A controller action function, defined with the
-     * `http` method `GET` to retrieve the server
-     * health status.
      *
      * @Get("/healthCheck", name="get_health_check")
      */
