@@ -3,7 +3,6 @@ DOCKER_COMPOSE = docker-compose
 PROJECT = "Monitoring App"
 COMPOSE_PROJECT_NAME ?= $(notdir $(shell pwd))
 
-
 help:
 	@ echo "Usage: make <target>\n"
 	@ echo "Available targets:\n"
@@ -23,7 +22,7 @@ container-remove:
 
 container-up:
 	@echo "\n==> Docker container building and starting ..."
-	$(DOCKER_COMPOSE) up --build -d
+	$(DOCKER_COMPOSE) up --build
 
 tear-down: container-stop container-down container-remove
 
